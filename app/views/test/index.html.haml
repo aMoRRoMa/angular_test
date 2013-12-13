@@ -1,0 +1,120 @@
+.row{'ng_controller' => 'AppCtrl'}
+  %script#modelFormTemplate{type: "text/ng-template"}
+    %form{name: 'Model', 'ng-submit' => 'save(newModel)'}
+      %fieldset
+        %legend Model
+        .row
+          .large-10.columns
+            %label Text
+            %input{ name: 'text',
+                    type: 'text',
+                    placeholder: 'text field',
+                    ng: {model: 'newModel.text'},
+                    'ng-required' => 'true',
+                    'ng-minlength' => '2',
+                    'ng-maxlength' => '10',
+                  }
+          .large-2.columns{'ng-hide' => 'Model.text.$valid'} invalid
+        .row
+          .large-10.columns
+            %label Number
+            %input{ name:'number',
+                    type: 'number',
+                    placeholder: 'number field',
+                    'ng-model'=>'newModel.number',
+
+                    'min' => '0',
+                    'max' => '1000',
+                    'ng-required' => 'true',
+                    'ng-minlength' => '1',
+                    'ng-maxlength' => '4',
+                  }
+          .large-2.columns{'ng-hide' => 'Model.number.$valid'} invalid
+        .row
+          .large-10.columns
+            %label Url
+            %input{ name: 'url',
+                    type: 'url',
+                    placeholder: 'url field',
+                    'ng-model'=>'newModel.url',
+
+                    'ng-required' => 'true',
+                  }
+          .large-2.columns{'ng-hide' => 'Model.url.$valid'} invalid
+        .row
+          .large-10.columns
+            %label Email
+            %input{ name: 'email',
+                    type: 'email',
+                    placeholder: 'email field',
+                    'ng-model'=>'newModel.email',
+
+                    'ng-required' => 'true',
+                  }
+          .large-2.columns{'ng-hide' => 'Model.email.$valid'} invalid
+        .row
+          .large-6.columns
+            %label Choose Your Favorite
+
+            %input#pokemonRed{name: "radio_1",
+                              type: "radio",
+                              value: "Radio 1",
+                              'ng-model' => 'newModel.radio',
+                             }
+            %label{for: "pokemonRed"} Radio 1
+
+            %input#pokemonBlue{name: "radio_2",
+                               type: "radio",
+                               value: "Radio 2",
+                               'ng-model' => 'newModel.radio',
+                              }
+            %label{for: "pokemonBlue"} Radio 2
+
+          .large-6.columns
+            %label Check these out
+
+            %input#checkbox1{ name: 'checkbox',
+                              type: "checkbox",
+                              'ng-model' => 'newModel.checkbox',
+
+                              'ng-true-value' => 'true value',
+                              'ng-false-value' => 'false value',
+                            }
+            %label{for: "checkbox1"} Checkbox
+        .row
+          .large-10.columns
+            %label Select Box
+            %select{ name: 'select',
+                     'ng-model' => 'newModel.select',
+                     'my-valid' => '',
+                   }
+              %option{value: "husker"} Husker
+              %option{value: "starbuck"} Starbuck
+              %option{value: "hotdog"} Hot Dog
+              %option{value: "apollo"} Apollo
+          .large-2.columns{'ng-hide' => 'Model.select.$valid'} invalid
+        .row
+          .large-6.columns
+            %input.button.success{'ng-disabled' => '!Model.$valid', type:'submit', value:'Сохранить'}
+          .large-6.columns
+            .button.alert{'ng-click' => 'reset()'}='Очистить'
+  %script#modelViewTemplate{type: 'text/ng-template'}
+    .large-12.columns
+      %fieldset
+        %legend Model
+        %label Text: {{model.text}}
+        %label Number: {{model.number}}
+        %label Url: {{model.url}}
+        %label Email: {{model.email}}
+        %label Radio: {{model.radio}}
+        %label Checkbox: {{model.checkbox}}
+        %label Select: {{model.select}}
+        %div.button{ng:{click:'editModel(model)'}}='Редактировать'
+        %div.button.alert{ng:{click:'delete(model)'}}='Удалить'
+  .large-7.columns{'model-form'=>''}
+  .large-5.columns
+    .row
+      .large-12.columns
+        .button.alert{'ng-click' => 'cleanModels()'} Очистить
+    .row{'ng-repeat' => 'model in models.all() track by $index', 'model-view' => ''}
+
